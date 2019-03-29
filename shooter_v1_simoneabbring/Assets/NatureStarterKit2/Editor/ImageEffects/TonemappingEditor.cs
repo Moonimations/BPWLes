@@ -41,13 +41,9 @@ namespace UnityStandardAssets.ImageEffects
             GUILayout.Label("Mapping HDR to LDR ranges since 1982", EditorStyles.miniLabel);
 
             Camera cam = (target as Tonemapping).GetComponent<Camera>();
-            if (cam != null) {
-                if (!cam.hdr) {
-                    EditorGUILayout.HelpBox("The camera is not HDR enabled. This will likely break the Tonemapper.", MessageType.Warning);
-                }
-                else if (!(target as Tonemapping).validRenderTextureFormat) {
-                    EditorGUILayout.HelpBox("The input to Tonemapper is not in HDR. Make sure that all effects prior to this are executed in HDR.", MessageType.Warning);
-                }
+            if (cam != null)
+            {
+                NewMethod(cam);
             }
 
             EditorGUILayout.PropertyField (type, new GUIContent ("Technique"));
@@ -76,6 +72,18 @@ namespace UnityStandardAssets.ImageEffects
             GUILayout.Label("All following effects will use LDR color buffers", EditorStyles.miniBoldLabel);
 
             serObj.ApplyModifiedProperties();
+        }
+
+        private void NewMethod(Camera cam)
+        {
+            if (!cam.hdr)
+            {
+                EditorGUILayout.HelpBox("The camera is not HDR enabled. This will likely break the Tonemapper.", MessageType.Warning);
+            }
+            else if (!(target as Tonemapping).validRenderTextureFormat)
+            {
+                EditorGUILayout.HelpBox("The input to Tonemapper is not in HDR. Make sure that all effects prior to this are executed in HDR.", MessageType.Warning);
+            }
         }
     }
 }
